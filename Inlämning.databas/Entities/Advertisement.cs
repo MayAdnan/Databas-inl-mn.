@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Inlämning.databas.Entities
 {
-    public class Advertisements
+    public class Advertisement
     {
-        public int AdvertismentID { get; set; }
+        public int AdvertisementID { get; set; }
         public string Title { get; set; }
         public string Descriptions { get; set; }
         public decimal Price { get; set; }
@@ -16,9 +16,9 @@ namespace Inlämning.databas.Entities
         public int CategoryID { get; set; }
         public int UsersID { get; set; }
 
-        public Advertisements(int advertismentID, string title, string descriptions, decimal price, DateTime createDate, int categoryID, int usersID)
+        public Advertisement(int advertisementID, string title, string descriptions, decimal price, DateTime createDate, int categoryID, int usersID)
         {
-            AdvertismentID = advertismentID;
+            AdvertisementID = advertisementID;
             Title = title;
             Descriptions = descriptions;
             Price = price;
@@ -26,6 +26,9 @@ namespace Inlämning.databas.Entities
             CategoryID = categoryID;
             UsersID = usersID;
         }
-    }
 
+    }
 }
+
+
+

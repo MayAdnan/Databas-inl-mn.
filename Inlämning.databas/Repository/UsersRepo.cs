@@ -1,11 +1,6 @@
 ﻿using Inlämning.databas.Entities;
-using Microsoft.Exchange.WebServices.Data;
-using System;
-using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Inlämning.databas.Repository
 {
@@ -21,41 +16,40 @@ namespace Inlämning.databas.Repository
                 return user;
             }
             return null;
-
         }
 
         public void Save(User user)
         {
-            using (SqlConnection conn = new SqlConnection(_connString))
+            string sql = "Insert into [User] (Username,PasswordUser) Values (@Username, @PasswordUser)";
+
+            List<SqlParameter> parameters = new List<SqlParameter>
             {
-                string sql = "Insert into User (Username,PasswordUser) Values (@Username, @PasswordUser)";
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@Username", user.UserName);
-                cmd.Parameters.AddWithValue("@PasswordUser", user.PasswordUser);
-                conn.Open();
-                cmd.ExecuteNonQuery();
-            }
+                new SqlParameter("@Username", user.UserName),
+                new SqlParameter("@PasswordUser", user.PasswordUser)
+            };
+               DataContext .ExecuteNonQuery(sql,parameters);
         }
+
         public User GetUsername(string username)
         {
-            using (SqlConnection conn = new SqlConnection(_connString))
-            {
-                string sql = "Select * from User Where Username = @Username";
-                SqlCommand command = new SqlCommand(sql, conn);
-                command.Parameters.AddWithValue("@Username", username);
-                conn.Open();
+            string sql = "Select * from [User] Where [Username] = @Username";
+            List<SqlParameter> parameters = new List<SqlParameter>
 
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        return new User(
-                          reader.GetInt32(0),
-                            reader.GetString(1),
-                            reader.GetString(2)
-                        );
-                    }
-                }
+            {
+                new SqlParameter("@Username", username)
+            };
+
+            DataTable data = DataContext.ExecuteQueryReturnTable(sql, parameters);
+
+            if (data.Rows.Count > 0)
+            {
+                DataRow row = data.Rows[0];
+                return new User(
+                Convert.ToInt32(row["UsersID"]),
+                row["Username"].ToString(),
+                row["PasswordUser"].ToString()
+
+                );
             }
             return null;
         }

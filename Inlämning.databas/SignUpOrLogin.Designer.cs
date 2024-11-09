@@ -36,6 +36,7 @@
             labelPassword = new Label();
             textBoxPassword = new TextBox();
             buttonSignUp = new Button();
+            buttonLogout = new Button();
             SuspendLayout();
             // 
             // label1
@@ -78,6 +79,7 @@
             buttonLogin.TabIndex = 4;
             buttonLogin.Text = "Log in ";
             buttonLogin.UseVisualStyleBackColor = true;
+            buttonLogin.Click += buttonLogin_Click;
             // 
             // labelPassword
             // 
@@ -94,6 +96,7 @@
             textBoxPassword.Name = "textBoxPassword";
             textBoxPassword.Size = new Size(242, 27);
             textBoxPassword.TabIndex = 6;
+            textBoxPassword.UseSystemPasswordChar = true;
             // 
             // buttonSignUp
             // 
@@ -103,12 +106,24 @@
             buttonSignUp.TabIndex = 7;
             buttonSignUp.Text = "Sign up ";
             buttonSignUp.UseVisualStyleBackColor = true;
+            buttonSignUp.Click += buttonSignUp_Click;
+            // 
+            // buttonLogout
+            // 
+            buttonLogout.Location = new Point(109, 313);
+            buttonLogout.Name = "buttonLogout";
+            buttonLogout.Size = new Size(94, 29);
+            buttonLogout.TabIndex = 8;
+            buttonLogout.Text = "Log out";
+            buttonLogout.UseVisualStyleBackColor = true;
+            buttonLogout.Click += buttonLogout_Click;
             // 
             // SignUpOrLogin
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(352, 323);
+            ClientSize = new Size(312, 371);
+            Controls.Add(buttonLogout);
             Controls.Add(buttonSignUp);
             Controls.Add(textBoxPassword);
             Controls.Add(labelPassword);
@@ -133,5 +148,6 @@
         private Label labelPassword;
         private TextBox textBoxPassword;
         private Button buttonSignUp;
+        private Button buttonLogout;
     }
 }

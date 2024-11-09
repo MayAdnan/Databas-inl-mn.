@@ -1,9 +1,6 @@
 ﻿using Inlämning.databas.Entities;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Inlämning.databas.Repository
 {
@@ -13,7 +10,7 @@ namespace Inlämning.databas.Repository
 
         public List<Advertisement> GetAll()
         {
-            var sql = "SELECT * FROM Advertisement";
+            string sql = "SELECT * FROM Advertisement";
             var dataTable = DataContext.ExecuteQueryReturnTable(sql, null);
             var advertisements = new List<Advertisement>();
 
@@ -28,6 +25,40 @@ namespace Inlämning.databas.Repository
                     Convert.ToInt32(row["CategoryID"]),
                     Convert.ToInt32(row["UsersID"])
                 );
+                advertisements.Add(ad);
+            }
+
+            return advertisements;
+        }
+        public List<Advertisement> Sort(string sort)
+        {
+            string sql = "Select * from Advertisement";
+
+            switch (sort)
+            {
+                case "Price":
+                    sql += " Order by Price asc";
+                    break;
+
+                case "Date":
+                    sql += " Order by CreateDate desc";
+                    break;
+            }
+            var dataTable = DataContext.ExecuteQueryReturnTable(sql, null);
+            var advertisements = new List<Advertisement>();
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                var ad = new Advertisement(
+                    Convert.ToInt32(row["AdvertisementID"]),
+                    row["Title"].ToString(),
+                    row["Descriptions"].ToString(),
+                    Convert.ToDecimal(row["Price"]),
+                    Convert.ToDateTime(row["CreateDate"]),
+                    Convert.ToInt32(row["CategoryID"]),
+                    Convert.ToInt32(row["UsersID"])
+                );
+
                 advertisements.Add(ad);
             }
 
@@ -68,53 +99,90 @@ namespace Inlämning.databas.Repository
 
             return advertisements;
         }
-
-            public void Add(Advertisement ad)
+        public Advertisement GetAdByID(int adId)
+        {
+            string sql = "Select * from Advertisement WHERE AdvertisementID = @AdvertisementID";
+            List<SqlParameter> parameters = new List<SqlParameter>();
             {
-                using (var connection = new SqlConnection(_connString))
-                {
-                    connection.Open();
-                    var command = new SqlCommand("INSERT INTO Advertisement (Title, Descriptions, Price, CreateDate, CategoryID, UsersID) VALUES (@Title, @Descriptions, " +
-                        "@Price, @CreateDate, @CategoryID, @UsersID)", connection);
-
-                    command.Parameters.AddWithValue("@Title", ad.Title);
-                    command.Parameters.AddWithValue("@Descriptions", ad.Descriptions);
-                    command.Parameters.AddWithValue("@Price", ad.Price);
-                    command.Parameters.AddWithValue("@CreateDate", ad.CreateDate);
-                    command.Parameters.AddWithValue("@CategoryID", ad.CategoryID);
-                    command.Parameters.AddWithValue("@UsersID", ad.UsersID);
-
-                    command.ExecuteNonQuery();
-                }
+                new SqlParameter("@AdvertisementID", adId);
             }
 
-            public void Update(Advertisement ad)
+            DataTable dataTable = DataContext.ExecuteQueryReturnTable(sql, parameters);
+
+            if (dataTable.Rows.Count == 0)
+                return null;
+
+            DataRow row = dataTable.Rows[0];
+            return new Advertisement(
+                Convert.ToInt32(row["AdvertisementID"]),
+                row["Title"].ToString(),
+                row["Descriptions"].ToString(),
+                Convert.ToDecimal(row["Price"]),
+                Convert.ToDateTime(row["CreateDate"]),
+                Convert.ToInt32(row["CategoryID"]),
+                Convert.ToInt32(row["UsersID"])
+            );
+        }
+
+        public void Add(Advertisement ad)
+        {
+            string sql = ("INSERT INTO Advertisement (Title, Descriptions, Price, CreateDate, CategoryID, UsersID) VALUES (@Title, @Descriptions, " +
+                        "@Price, @CreateDate, @CategoryID, @UsersID)");
+            List<SqlParameter> parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@Title", ad.Title),
+                        new SqlParameter("@Descriptions", ad.Descriptions),
+                        new SqlParameter("@Price", ad.Price),
+                        new SqlParameter("@CreateDate", ad.CreateDate),
+                        new SqlParameter("@CategoryID", ad.CategoryID),
+                        new SqlParameter("@UsersID", ad.UsersID)
+                    };
+            DataContext.ExecuteNonQuery(sql, parameters);
+        }
+        public void Update(Advertisement ad)
+        {
             {
-                using (var connection = new SqlConnection(_connString))
+                var existingAd = GetAdByID(ad.AdvertisementID);
+                if (existingAd != null && existingAd.UsersID != ad.UsersID)
                 {
-                    connection.Open();
-                    var command = new SqlCommand("UPDATE Advertisement SET Title = @Title, Descriptions = @Descriptions, Price = @Price, " +
-                                                 "CategoryID = @CategoryID WHERE AdvertisementID = @AdvertisementID", connection);
-
-                    command.Parameters.AddWithValue("@Title", ad.Title);
-                    command.Parameters.AddWithValue("@Descriptions", ad.Descriptions);
-                    command.Parameters.AddWithValue("@Price", ad.Price);
-                    command.Parameters.AddWithValue("@CategoryID", ad.CategoryID);
-                    command.Parameters.AddWithValue("@AdvertisementID", ad.AdvertisementID);
-
-                    command.ExecuteNonQuery();
+                    MessageBox.Show("Du har inte behörighet att uppdatera andras annonser");
+                    return; 
                 }
-            }
 
-            public void Delete(int adId)
-            {
-                using (var connection = new SqlConnection(_connString))
+                string sql = ("UPDATE Advertisement SET Title = @Title, Descriptions = @Descriptions, Price = @Price, " +
+                                                 "CategoryID = @CategoryID WHERE AdvertisementID = @AdvertisementID");
+                List<SqlParameter> parameters = new List<SqlParameter>
                 {
-                    connection.Open();
-                    var command = new SqlCommand("DELETE FROM Advertisement WHERE AdvertisementID = @AdvertisementID", connection);
-                    command.Parameters.AddWithValue("@AdvertisementID", adId);
-                    command.ExecuteNonQuery();
-                }
+                    new SqlParameter("@Title", ad.Title),
+                    new SqlParameter("@Descriptions", ad.Descriptions),
+                    new SqlParameter("@Price", ad.Price),
+                    new SqlParameter("@CategoryID", ad.CategoryID),
+                    new SqlParameter("@AdvertisementID", ad.AdvertisementID)
+                };
+
+                DataContext.ExecuteNonQuery(sql, parameters);
             }
         }
+        public void Delete(Advertisement ad)
+        {
+            {
+                var existingAd = GetAdByID(ad.AdvertisementID);
+                if (existingAd != null && existingAd.UsersID != ad.UsersID)
+                {
+                    MessageBox.Show("Du har inte behörighet att ta bort andras annonser");
+                    return;
+                }
+                string sql = "Delete from Advertisement where AdvertisementID = @AdvertisementID";
+      
+                List<SqlParameter> parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@AdvertisementID", ad.AdvertisementID)
+                };
+
+                DataContext.ExecuteNonQuery(sql, parameters);
+
+            }
+        }
+
     }
+}

@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Inlämning.databas.Repository
 {
     public static class DataContext
     {
-        //första metoden, generell kod som skrivs 
         private static string _connString= "Data Source=localhost;Initial Catalog=AnnonsDatabas;Integrated Security=SSPI;TrustServerCertificate=True;";
         
         public static DataTable ExecuteQueryReturnTable(string sql, List<SqlParameter> parmeters)
@@ -21,21 +14,19 @@ namespace Inlämning.databas.Repository
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
 
-                foreach (SqlParameter parameter in parmeters)
+                if (parmeters != null)
                 {
-                    cmd.Parameters.Add(parameter);
+                    cmd.Parameters.AddRange(parmeters.ToArray());
                 }
 
-                DataTable result = new DataTable();
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-
+                DataTable result = new DataTable();
                 adapter.Fill(result);
 
                 return result;
             }
-          
-
         }
+
         public static void ExecuteNonQuery(string sql, List<SqlParameter> parameters)
         {
             using (SqlConnection conn = new SqlConnection(_connString))

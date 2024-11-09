@@ -26,6 +26,10 @@ namespace Inlämning.databas.Entities
             CategoryID = categoryID;
             UsersID = usersID;
         }
+        public override string ToString()
+        {
+            return $"{Title} , {Price:C} , {CreateDate:yyyy-MM-dd}";
+        }
 
     }
 }

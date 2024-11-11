@@ -42,6 +42,7 @@
             buttonDate = new Button();
             buttonPrice = new Button();
             label1 = new Label();
+            buttonClear = new Button();
             SuspendLayout();
             // 
             // labelSearch
@@ -49,15 +50,15 @@
             labelSearch.AutoSize = true;
             labelSearch.Location = new Point(22, 21);
             labelSearch.Name = "labelSearch";
-            labelSearch.Size = new Size(53, 20);
+            labelSearch.Size = new Size(105, 20);
             labelSearch.TabIndex = 0;
-            labelSearch.Text = "Search";
+            labelSearch.Text = "Sök på annons";
             // 
             // textBoxSearch
             // 
             textBoxSearch.Location = new Point(22, 44);
             textBoxSearch.Name = "textBoxSearch";
-            textBoxSearch.Size = new Size(164, 27);
+            textBoxSearch.Size = new Size(190, 27);
             textBoxSearch.TabIndex = 1;
             // 
             // comboBoxCategory
@@ -65,7 +66,7 @@
             comboBoxCategory.FormattingEnabled = true;
             comboBoxCategory.Location = new Point(22, 119);
             comboBoxCategory.Name = "comboBoxCategory";
-            comboBoxCategory.Size = new Size(164, 28);
+            comboBoxCategory.Size = new Size(190, 28);
             comboBoxCategory.TabIndex = 2;
             // 
             // labelCategory
@@ -75,64 +76,64 @@
             labelCategory.Name = "labelCategory";
             labelCategory.Size = new Size(69, 20);
             labelCategory.TabIndex = 3;
-            labelCategory.Text = "Category";
+            labelCategory.Text = "Kategory";
             // 
             // labelAdvertisment
             // 
             labelAdvertisment.AutoSize = true;
-            labelAdvertisment.Location = new Point(22, 166);
+            labelAdvertisment.Location = new Point(22, 170);
             labelAdvertisment.Name = "labelAdvertisment";
-            labelAdvertisment.Size = new Size(97, 20);
+            labelAdvertisment.Size = new Size(71, 20);
             labelAdvertisment.TabIndex = 5;
-            labelAdvertisment.Text = "Advertisment";
+            labelAdvertisment.Text = "Annonser";
             // 
             // buttonSignUpOrLogIn
             // 
-            buttonSignUpOrLogIn.Location = new Point(451, 12);
+            buttonSignUpOrLogIn.Location = new Point(680, 12);
             buttonSignUpOrLogIn.Name = "buttonSignUpOrLogIn";
             buttonSignUpOrLogIn.Size = new Size(165, 29);
             buttonSignUpOrLogIn.TabIndex = 6;
-            buttonSignUpOrLogIn.Text = "Sign up / Log in ";
+            buttonSignUpOrLogIn.Text = "Logga in / Registrera ";
             buttonSignUpOrLogIn.UseVisualStyleBackColor = true;
             buttonSignUpOrLogIn.Click += buttonSignUpOrLogIn_Click;
             // 
             // buttonSearch
             // 
-            buttonSearch.Location = new Point(242, 42);
+            buttonSearch.Location = new Point(266, 42);
             buttonSearch.Name = "buttonSearch";
             buttonSearch.Size = new Size(113, 29);
             buttonSearch.TabIndex = 7;
-            buttonSearch.Text = "Search";
+            buttonSearch.Text = "Sök";
             buttonSearch.UseVisualStyleBackColor = true;
             buttonSearch.Click += buttonSearch_Click;
             // 
             // buttonDelete
             // 
-            buttonDelete.Location = new Point(469, 384);
+            buttonDelete.Location = new Point(523, 398);
             buttonDelete.Name = "buttonDelete";
-            buttonDelete.Size = new Size(113, 29);
+            buttonDelete.Size = new Size(131, 29);
             buttonDelete.TabIndex = 8;
-            buttonDelete.Text = "Delete Advertisement";
+            buttonDelete.Text = "Ta bort annons";
             buttonDelete.UseVisualStyleBackColor = true;
             buttonDelete.Click += buttonDelete_Click;
             // 
             // buttonNewAd
             // 
-            buttonNewAd.Location = new Point(22, 384);
+            buttonNewAd.Location = new Point(22, 398);
             buttonNewAd.Name = "buttonNewAd";
             buttonNewAd.Size = new Size(160, 29);
             buttonNewAd.TabIndex = 9;
-            buttonNewAd.Text = "New Advertisement";
+            buttonNewAd.Text = "Ny annons";
             buttonNewAd.UseVisualStyleBackColor = true;
             buttonNewAd.Click += buttonNewAd_Click;
             // 
             // buttonEditAd
             // 
-            buttonEditAd.Location = new Point(242, 384);
+            buttonEditAd.Location = new Point(276, 398);
             buttonEditAd.Name = "buttonEditAd";
             buttonEditAd.Size = new Size(157, 29);
             buttonEditAd.TabIndex = 10;
-            buttonEditAd.Text = "Edit Advertisement";
+            buttonEditAd.Text = "Redigera annons";
             buttonEditAd.UseVisualStyleBackColor = true;
             buttonEditAd.Click += buttonEditAd_Click;
             // 
@@ -141,43 +142,55 @@
             listBoxAd.FormattingEnabled = true;
             listBoxAd.Location = new Point(22, 199);
             listBoxAd.Name = "listBoxAd";
-            listBoxAd.Size = new Size(560, 164);
+            listBoxAd.Size = new Size(823, 184);
             listBoxAd.TabIndex = 11;
+            listBoxAd.SelectedIndexChanged += listBoxAd_SelectedIndexChanged;
             // 
             // buttonDate
             // 
-            buttonDate.Location = new Point(388, 166);
+            buttonDate.Location = new Point(638, 166);
             buttonDate.Name = "buttonDate";
             buttonDate.Size = new Size(94, 29);
             buttonDate.TabIndex = 12;
-            buttonDate.Text = "Date";
+            buttonDate.Text = "Datum";
             buttonDate.UseVisualStyleBackColor = true;
             buttonDate.Click += buttonDate_Click;
             // 
             // buttonPrice
             // 
-            buttonPrice.Location = new Point(488, 166);
+            buttonPrice.Location = new Point(751, 166);
             buttonPrice.Name = "buttonPrice";
             buttonPrice.Size = new Size(94, 29);
             buttonPrice.TabIndex = 13;
-            buttonPrice.Text = "Price";
+            buttonPrice.Text = "Pris";
             buttonPrice.UseVisualStyleBackColor = true;
             buttonPrice.Click += buttonPrice_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(319, 170);
+            label1.Location = new Point(523, 170);
             label1.Name = "label1";
-            label1.Size = new Size(63, 20);
+            label1.Size = new Size(95, 20);
             label1.TabIndex = 14;
-            label1.Text = "Sort by: ";
+            label1.Text = "Sortera efter:";
+            // 
+            // buttonClear
+            // 
+            buttonClear.Location = new Point(751, 398);
+            buttonClear.Name = "buttonClear";
+            buttonClear.Size = new Size(94, 29);
+            buttonClear.TabIndex = 15;
+            buttonClear.Text = "Rensa ";
+            buttonClear.UseVisualStyleBackColor = true;
+            buttonClear.Click += buttonClear_Click;
             // 
             // FormAdvertisement
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(630, 432);
+            ClientSize = new Size(857, 447);
+            Controls.Add(buttonClear);
             Controls.Add(label1);
             Controls.Add(buttonPrice);
             Controls.Add(buttonDate);
@@ -193,7 +206,7 @@
             Controls.Add(textBoxSearch);
             Controls.Add(labelSearch);
             Name = "FormAdvertisement";
-            Text = "Form1";
+            Text = "Sök annonser";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -214,5 +227,6 @@
         private Button buttonDate;
         private Button buttonPrice;
         private Label label1;
+        private Button buttonClear;
     }
 }

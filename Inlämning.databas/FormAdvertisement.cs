@@ -1,6 +1,7 @@
 using Inlämning.databas.Entities;
 using Inlämning.databas.Repository;
 using Microsoft.Exchange.WebServices.Data;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace Inlämning.databas
 {
@@ -8,19 +9,21 @@ namespace Inlämning.databas
     {
         private List<Category> categories;
         private List<Advertisement> advertisements;
-        private int currentID;
-        public FormAdvertisement(int usersID)
+        private Entities.User currentUser;
+        public FormAdvertisement(Entities.User user)
         {
             InitializeComponent();
-            this.currentID = usersID;
+            currentUser = user;
             LoadAd();
             LoadCategory();
+            UpdateButtonVisibility();
         }
         private void LoadAd()
         {
             AdvertisementsRepo repo = new AdvertisementsRepo();
             advertisements = repo.GetAll();
             BindAdvertisements();
+            UpdateButtonVisibility();
         }
         private void BindAdvertisements()
         {
@@ -37,6 +40,29 @@ namespace Inlämning.databas
             comboBoxCategory.ValueMember = "CategoryID";
             comboBoxCategory.DataSource = categories;
             comboBoxCategory.SelectedIndex = -1;
+        }
+        private void UpdateButtonVisibility()
+        {
+            if (currentUser?.UsersID != null)
+            {
+                buttonNewAd.Visible = true;
+            }
+            else
+            {
+                buttonNewAd.Visible = false;
+            }
+
+            if (listBoxAd.SelectedItem is Advertisement selectedAd)
+            {
+                bool isOwner = selectedAd.UsersID == currentUser?.UsersID;
+                buttonDelete.Visible = isOwner;
+                buttonEditAd.Visible = isOwner;
+            }
+            else
+            {
+                buttonDelete.Visible = false;
+                buttonEditAd.Visible = false;
+            }
         }
         private void comboBoxCategories_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -73,27 +99,22 @@ namespace Inlämning.databas
         }
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            if (currentID == 0)
+            if (listBoxAd.SelectedItem is Advertisement adSelected && adSelected.UsersID == currentUser.UsersID)
             {
-                MessageBox.Show("Du måste vara inloggad för att ta bort annonser.");
-                return;
-            }
-            if (listBoxAd.SelectedItem is Advertisement adSelected)
-            {
-                var repo = new AdvertisementsRepo();
-                repo.Delete(adSelected);
-                LoadAd();
+                var result = MessageBox.Show("Är du säker på att du vill ta bort denna annons?", "Bekräfta borttagning", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.Yes)
+                {
+                    var repo = new AdvertisementsRepo();
+                    repo.Delete(adSelected);
+                    LoadAd();
+                }
             }
         }
 
         private void buttonNewAd_Click(object sender, EventArgs e)
         {
-            if (currentID == 0)
-            {
-                MessageBox.Show("Du måste vara inloggad för att lägga till annonser.");
-                return;
-            }
-            var newAd = new FormEdit(null, categories, currentID);
+            var newAd = new FormEdit(null, categories, currentUser.UsersID);
             if (newAd.ShowDialog() == DialogResult.OK)
             {
                 LoadAd();
@@ -102,32 +123,21 @@ namespace Inlämning.databas
 
         private void buttonEditAd_Click(object sender, EventArgs e)
         {
-            if (currentID == 0)
+            if (listBoxAd.SelectedItem is Advertisement editAd && editAd.UsersID == currentUser.UsersID)
             {
-                MessageBox.Show("Du måste vara inloggad för att redigera annonser.");
-                return;
-            }
-
-            if (listBoxAd.SelectedItem is Advertisement editAd)
-            {
-                var editForm = new FormEdit(editAd, categories, currentID);
+                var editForm = new FormEdit(editAd, categories, currentUser.UsersID);
 
                 if (editForm.ShowDialog() == DialogResult.OK)
                 {
                     LoadAd();
                 }
             }
-            else
-            {
-                MessageBox.Show("Välj en annos att redigera");
-            }
         }
-
         private void buttonSignUpOrLogIn_Click(object sender, EventArgs e)
         {
             SignUpOrLogin signUpOrLogin = new SignUpOrLogin();
-            signUpOrLogin.ShowDialog();
             this.Hide();
+            signUpOrLogin.ShowDialog();
         }
 
         private void buttonDate_Click(object sender, EventArgs e)
@@ -139,8 +149,21 @@ namespace Inlämning.databas
         private void buttonPrice_Click(object sender, EventArgs e)
         {
             AdvertisementsRepo repo = new AdvertisementsRepo();
-            var advertisements = repo.Sort("Price");
+            advertisements = repo.Sort("Price");
             BindAdvertisements();
+        }
+
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            textBoxSearch.Clear();
+            listBoxAd.ClearSelected();
+            comboBoxCategory.SelectedIndex = -1;
+            LoadAd();
+        }
+
+        private void listBoxAd_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateButtonVisibility();
         }
     }
 }

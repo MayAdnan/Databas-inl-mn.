@@ -62,25 +62,25 @@
             label1.Name = "label1";
             label1.Size = new Size(38, 20);
             label1.TabIndex = 4;
-            label1.Text = "Title";
+            label1.Text = "Titel";
             // 
             // labelDescriptions
             // 
             labelDescriptions.AutoSize = true;
             labelDescriptions.Location = new Point(63, 132);
             labelDescriptions.Name = "labelDescriptions";
-            labelDescriptions.Size = new Size(91, 20);
+            labelDescriptions.Size = new Size(84, 20);
             labelDescriptions.TabIndex = 5;
-            labelDescriptions.Text = "Descriptions";
+            labelDescriptions.Text = "Beskrivning";
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Location = new Point(63, 214);
             label3.Name = "label3";
-            label3.Size = new Size(41, 20);
+            label3.Size = new Size(32, 20);
             label3.TabIndex = 6;
-            label3.Text = "Price";
+            label3.Text = "Pris";
             // 
             // labelCategory
             // 
@@ -89,7 +89,7 @@
             labelCategory.Name = "labelCategory";
             labelCategory.Size = new Size(69, 20);
             labelCategory.TabIndex = 7;
-            labelCategory.Text = "Category";
+            labelCategory.Text = "Kategory";
             // 
             // buttonSave
             // 
@@ -97,14 +97,14 @@
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(94, 29);
             buttonSave.TabIndex = 8;
-            buttonSave.Text = "Save";
+            buttonSave.Text = "Spara";
             buttonSave.UseVisualStyleBackColor = true;
             buttonSave.Click += buttonSave_Click;
             // 
             // comboBoxCategories
             // 
             comboBoxCategories.FormattingEnabled = true;
-            comboBoxCategories.Location = new Point(63, 341);
+            comboBoxCategories.Location = new Point(63, 330);
             comboBoxCategories.Name = "comboBoxCategories";
             comboBoxCategories.Size = new Size(378, 28);
             comboBoxCategories.TabIndex = 10;
@@ -115,7 +115,7 @@
             buttonEdit.Name = "buttonEdit";
             buttonEdit.Size = new Size(94, 29);
             buttonEdit.TabIndex = 11;
-            buttonEdit.Text = "Edit";
+            buttonEdit.Text = "Redigera";
             buttonEdit.UseVisualStyleBackColor = true;
             buttonEdit.Click += buttonEdit_Click;
             // 
@@ -142,7 +142,7 @@
             Controls.Add(textBoxDescriptions);
             Controls.Add(textBoxTitle);
             Name = "FormEdit";
-            Text = "FormEdit";
+            Text = "Redigera / Spara annons";
             ((System.ComponentModel.ISupportInitialize)numericUpDownPrice).EndInit();
             ResumeLayout(false);
             PerformLayout();

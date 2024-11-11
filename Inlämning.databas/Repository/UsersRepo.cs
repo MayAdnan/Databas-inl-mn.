@@ -6,7 +6,6 @@ namespace Inlämning.databas.Repository
 {
     public class UsersRepo
     {
-        private static string _connString = "Data Source=localhost;Initial Catalog=AnnonsDatabas;Integrated Security=SSPI;TrustServerCertificate=True;";
         public User Login(string username, string PasswordUser)
         {
             User user = GetUsername(username);

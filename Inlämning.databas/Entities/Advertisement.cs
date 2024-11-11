@@ -28,7 +28,7 @@ namespace Inlämning.databas.Entities
         }
         public override string ToString()
         {
-            return $"{Title} , {Price:C} , {CreateDate:yyyy-MM-dd}";
+            return $"{Title} , {Descriptions} , {Price:C} , {CreateDate:yyyy-MM-dd}";
         }
 
     }

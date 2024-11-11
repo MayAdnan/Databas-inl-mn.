@@ -6,8 +6,6 @@ namespace Inlämning.databas.Repository
 {
     public class AdvertisementsRepo
     {
-        private static string _connString = "Data Source=localhost;Initial Catalog=AnnonsDatabas;Integrated Security=SSPI;TrustServerCertificate=True;";
-
         public List<Advertisement> GetAll()
         {
             string sql = "SELECT * FROM Advertisement";
@@ -101,11 +99,11 @@ namespace Inlämning.databas.Repository
         }
         public Advertisement GetAdByID(int adId)
         {
-            string sql = "Select * from Advertisement WHERE AdvertisementID = @AdvertisementID";
-            List<SqlParameter> parameters = new List<SqlParameter>();
+            string sql = "Select * from Advertisement Where AdvertisementID = @AdvertisementID";
+            List<SqlParameter > parameters = new List<SqlParameter>()
             {
-                new SqlParameter("@AdvertisementID", adId);
-            }
+                new SqlParameter("@AdvertisementID", adId)
+            };
 
             DataTable dataTable = DataContext.ExecuteQueryReturnTable(sql, parameters);
 
@@ -143,11 +141,6 @@ namespace Inlämning.databas.Repository
         {
             {
                 var existingAd = GetAdByID(ad.AdvertisementID);
-                if (existingAd != null && existingAd.UsersID != ad.UsersID)
-                {
-                    MessageBox.Show("Du har inte behörighet att uppdatera andras annonser");
-                    return; 
-                }
 
                 string sql = ("UPDATE Advertisement SET Title = @Title, Descriptions = @Descriptions, Price = @Price, " +
                                                  "CategoryID = @CategoryID WHERE AdvertisementID = @AdvertisementID");
@@ -167,11 +160,7 @@ namespace Inlämning.databas.Repository
         {
             {
                 var existingAd = GetAdByID(ad.AdvertisementID);
-                if (existingAd != null && existingAd.UsersID != ad.UsersID)
-                {
-                    MessageBox.Show("Du har inte behörighet att ta bort andras annonser");
-                    return;
-                }
+
                 string sql = "Delete from Advertisement where AdvertisementID = @AdvertisementID";
       
                 List<SqlParameter> parameters = new List<SqlParameter>

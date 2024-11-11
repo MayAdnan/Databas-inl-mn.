@@ -59,7 +59,7 @@
             // 
             textBoxUserName.Location = new Point(31, 84);
             textBoxUserName.Name = "textBoxUserName";
-            textBoxUserName.Size = new Size(242, 27);
+            textBoxUserName.Size = new Size(278, 27);
             textBoxUserName.TabIndex = 2;
             // 
             // labelUserName
@@ -67,9 +67,9 @@
             labelUserName.AutoSize = true;
             labelUserName.Location = new Point(31, 52);
             labelUserName.Name = "labelUserName";
-            labelUserName.Size = new Size(75, 20);
+            labelUserName.Size = new Size(109, 20);
             labelUserName.TabIndex = 3;
-            labelUserName.Text = "Username";
+            labelUserName.Text = "Användarnamn";
             // 
             // buttonLogin
             // 
@@ -77,7 +77,7 @@
             buttonLogin.Name = "buttonLogin";
             buttonLogin.Size = new Size(94, 29);
             buttonLogin.TabIndex = 4;
-            buttonLogin.Text = "Log in ";
+            buttonLogin.Text = "Logga in";
             buttonLogin.UseVisualStyleBackColor = true;
             buttonLogin.Click += buttonLogin_Click;
             // 
@@ -88,33 +88,33 @@
             labelPassword.Name = "labelPassword";
             labelPassword.Size = new Size(70, 20);
             labelPassword.TabIndex = 5;
-            labelPassword.Text = "Password";
+            labelPassword.Text = "Lösenord";
             // 
             // textBoxPassword
             // 
             textBoxPassword.Location = new Point(31, 188);
             textBoxPassword.Name = "textBoxPassword";
-            textBoxPassword.Size = new Size(242, 27);
+            textBoxPassword.Size = new Size(278, 27);
             textBoxPassword.TabIndex = 6;
             textBoxPassword.UseSystemPasswordChar = true;
             // 
             // buttonSignUp
             // 
-            buttonSignUp.Location = new Point(179, 261);
+            buttonSignUp.Location = new Point(215, 261);
             buttonSignUp.Name = "buttonSignUp";
             buttonSignUp.Size = new Size(94, 29);
             buttonSignUp.TabIndex = 7;
-            buttonSignUp.Text = "Sign up ";
+            buttonSignUp.Text = "Registrera";
             buttonSignUp.UseVisualStyleBackColor = true;
             buttonSignUp.Click += buttonSignUp_Click;
             // 
             // buttonLogout
             // 
-            buttonLogout.Location = new Point(109, 313);
+            buttonLogout.Location = new Point(126, 312);
             buttonLogout.Name = "buttonLogout";
             buttonLogout.Size = new Size(94, 29);
             buttonLogout.TabIndex = 8;
-            buttonLogout.Text = "Log out";
+            buttonLogout.Text = "Logga ut";
             buttonLogout.UseVisualStyleBackColor = true;
             buttonLogout.Click += buttonLogout_Click;
             // 
@@ -122,7 +122,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(312, 371);
+            ClientSize = new Size(354, 371);
             Controls.Add(buttonLogout);
             Controls.Add(buttonSignUp);
             Controls.Add(textBoxPassword);
@@ -133,7 +133,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "SignUpOrLogin";
-            Text = "Sign up / Login";
+            Text = "Logga in / Registrera";
             ResumeLayout(false);
             PerformLayout();
         }

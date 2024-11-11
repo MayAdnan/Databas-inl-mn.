@@ -17,9 +17,9 @@ namespace Inlämning.databas
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             string username = textBoxUserName.Text.Trim();
-            string Password = textBoxPassword.Text.Trim();
+            string password = textBoxPassword.Text.Trim();
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Fälten får inte vara tomma.");
                 return;
@@ -27,14 +27,19 @@ namespace Inlämning.databas
 
             User user = userRepo.GetUsername(username);
 
-            if (user != null && user.PasswordUser == Password)
+            if (user == null)
+            {
+                MessageBox.Show("Ogiltig användarnamn eller lösenord.");
+                return;
+            }
+
+            if (user.PasswordUser == password)
             {
                 MessageBox.Show("Du är inloggad!");
-                formAdvertisement = new FormAdvertisement(user.UsersID);
+                formAdvertisement = new FormAdvertisement(user);
                 formAdvertisement.Show();
                 this.Hide();
             }
-
             else
             {
                 MessageBox.Show("Ogiltig användarnamn eller lösenord.");
@@ -45,6 +50,12 @@ namespace Inlämning.databas
         {
             string username = textBoxUserName.Text.Trim();
             string password = textBoxPassword.Text.Trim();
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Användarnamn och lösenord får inte vara tomma.");
+                return;
+            }
 
             User newUser = new User(0, username, password);
 
@@ -66,8 +77,11 @@ namespace Inlämning.databas
             }
             textBoxUserName.Clear();
             textBoxPassword.Clear();
-            this.Show();
+
             MessageBox.Show("Du har loggat ut.");
+            formAdvertisement = new FormAdvertisement(null);
+            formAdvertisement.Show();
+            this.Hide();
         }
     }
 }
